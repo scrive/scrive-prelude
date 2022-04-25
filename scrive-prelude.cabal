@@ -1,0 +1,69 @@
+cabal-version: 3.0
+name:          scrive-prelude
+version:       1.0
+author:        Scrive AB
+maintainer:    Scrive AB
+copyright:     2021
+stability:     Experimental
+category:      Web
+synopsis:      Prelude for scrive
+description:
+  This is scrive's common collection of function import we use the most.
+
+license:
+build-type:    Simple
+
+common common-stanza
+  default-language:   Haskell2010
+  default-extensions:
+    BangPatterns
+    ConstraintKinds
+    DataKinds
+    DeriveDataTypeable
+    DeriveFunctor
+    DeriveGeneric
+    DerivingStrategies
+    DerivingVia
+    DuplicateRecordFields
+    FlexibleContexts
+    FlexibleInstances
+    FunctionalDependencies
+    GADTs
+    GeneralizedNewtypeDeriving
+    LambdaCase
+    MultiParamTypeClasses
+    MultiWayIf
+    NamedFieldPuns
+    OverloadedLabels
+    OverloadedStrings
+    PatternGuards
+    RankNTypes
+    RecordWildCards
+    ScopedTypeVariables
+    StandaloneDeriving
+    StrictData
+    TupleSections
+    TypeApplications
+    TypeFamilies
+    TypeOperators
+    TypeSynonymInstances
+    UndecidableInstances
+
+library
+  import:           common-stanza
+  hs-source-dirs:   src
+  ghc-options:
+    -Werror -Wall -fno-warn-type-defaults -Wincomplete-record-updates
+    -Wredundant-constraints -Wunused-packages
+
+  ghc-prof-options: -fprof-auto -fno-prof-count-entries -fprof-auto-calls
+  exposed-modules:  Prelude
+  build-depends:
+    , base
+    , cond
+    , exceptions
+    , extra
+    , fields-json
+    , hpqtypes
+    , optics
+    , text
