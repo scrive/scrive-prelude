@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  pull_request:
+    paths:
+      - "src/**.hs"
+      - scrive-prelude.cabal
+      - .github/workflows/build.yaml
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  cabal-build:
+    runs-on:
+      - self-hosted
+      - linux
+    strategy:
+      matrix:
+        ghc:
+          - 8.10.7
+          - 9.2.3
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell/actions/setup@v2
+        id: setup-haskell
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: 3.6.2.0
+      - name: Create freeze file
+        run: cabal freeze
+      - uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-ghc-${{ matrix.ghc }}-${{ hashFiles('cabal.project.freeze') }}
+          path: ${{ steps.setup-haskell.outputs.cabal-store }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgmp-dev libpq-dev
+      - name: Run cabal build - ${{ matrix.ghc }}
+        run: cabal build
