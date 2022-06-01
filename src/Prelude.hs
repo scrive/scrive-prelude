@@ -201,7 +201,7 @@ whenNothing Nothing  m = m
 
 -- | Like 'error', but with a more conspicous name.
 unexpectedError :: HasCallStack => Text -> a
-unexpectedError errMsg = withFrozenCallStack . P.error $ T.unpack errMsg
+unexpectedError errMsg = withFrozenCallStack (P.error $ T.unpack errMsg)
 
 throwLeft :: (MonadThrow m, Exception e) => Either e a -> m a
 throwLeft = either throwM pure
