@@ -43,6 +43,7 @@ module Prelude (
   , unexpectedError
   , throwLeft
   , showt
+  , showtp
   ) where
 
 import Control.Applicative
@@ -66,6 +67,9 @@ import GHC.Stack (HasCallStack, withFrozenCallStack)
 import Optics
 import Text.JSON.FromJSValue
 import Text.JSON.ToJSValue
+import Text.Pretty.Simple
+  ( OutputOptions(..), defaultOutputOptionsDarkBg, pShowOpt
+  )
 import "base" Prelude hiding
   ( (!!), (&&), (||), all, and, any, error, fail, head, id, last, maximum
   , minimum, not, or, read, tail
@@ -73,6 +77,7 @@ import "base" Prelude hiding
 import qualified Data.Either.Optics as O
 import qualified Data.Maybe.Optics as O
 import qualified Data.Text as T
+import qualified Data.Text.Lazy as TL
 import qualified Data.Tuple.Optics as O
 import qualified Optics as O
   ( A_Fold, A_Getter, A_Lens, A_Prism, A_ReversedLens, A_ReversedPrism, A_Review
@@ -223,3 +228,11 @@ negativeIndexError fname = unexpectedError $ fname <> " received a negative inde
 
 showt :: Show a => a -> Text
 showt = T.pack . show
+
+-- | Pretty print anything with a `Show` instance.
+showtp :: Show a => a -> T.Text
+showtp = TL.toStrict . pShowOpt
+  (defaultOutputOptionsDarkBg { outputOptionsCompact   = True
+                              , outputOptionsPageWidth = 180
+                              }
+  )
