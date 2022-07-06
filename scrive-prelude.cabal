@@ -1,6 +1,6 @@
 cabal-version: 3.0
 name:          scrive-prelude
-version:       1.0.0.0
+version:       1.0.0.2
 author:        Scrive AB
 maintainer:    Scrive AB
 copyright:     2021
