@@ -66,4 +66,5 @@ library
     , fields-json
     , hpqtypes
     , optics
+    , pretty-simple
     , text
