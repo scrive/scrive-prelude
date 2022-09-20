@@ -38,6 +38,8 @@ module Prelude (
   , tail
   , expectJust
   , fromJust
+  , expectRight
+  , fromRight'
   , whenJust
   , whenNothing
   , unexpectedError
@@ -198,6 +200,14 @@ expectJust msg = \case
 -- information on failure.
 fromJust :: HasCallStack => Maybe a -> a
 fromJust = expectJust "fromJust received Nothing"
+
+fromRight' :: HasCallStack => Either a b -> b
+fromRight' = expectRight "fromRight' received Left"
+
+expectRight :: HasCallStack => Text -> Either a b -> b
+expectRight msg = \case
+  Right val -> val
+  Left _ -> unexpectedError msg
 
 -- | whenNothing mA fa = maybe fa return mA
 whenNothing :: Applicative f => Maybe a -> f a -> f a
