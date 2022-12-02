@@ -253,7 +253,7 @@ minimum = emptyList P.minimum $ emptyListError "minimum"
 read :: (HasCallStack, Read a, Show a) => Text -> a
 read s =
   let parsedS = reads $ T.unpack s
-   in fromMaybe
+  in  fromMaybe
         ( unexpectedError $
             "reading failed (input was '"
               <> s
