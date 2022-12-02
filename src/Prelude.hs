@@ -49,7 +49,6 @@ module Prelude
   , tail
   , throwLeft
   , toMaybe
-  , traverse_
   , unexpectedError
   , whenJust
   , whenNothing
