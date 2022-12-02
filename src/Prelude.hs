@@ -2,58 +2,59 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 -- | Slightly customized replacement of Prelude.
-module Prelude (
-  module Control.Applicative,
-  module Control.Monad,
-  module Data.Algebra.Boolean,
-  module Data.Either,
-  module Data.Foldable,
-  module Data.List,
-  module Data.Maybe,
-  module Data.Monoid,
-  module Data.Monoid.Utils,
-  module O,
-  module P,
-  Generic,
-  Text,
-  MonadFail (..),
-  (!!),
+module Prelude
+  ( module Control.Applicative
+  , module Control.Monad
+  , module Data.Algebra.Boolean
+  , module Data.Either
+  , module Data.Foldable
+  , module Data.List
+  , module Data.Maybe
+  , module Data.Monoid
+  , module Data.Monoid.Utils
+  , module O
+  , module P
+  , Generic
+  , Text
+  , MonadFail (..)
+  , (!!)
   -- optics
-  (&),
-  (%),
-  (?~),
-  view,
-  (^.),
-  preview,
-  (^?),
-  toListOf,
-  (^..),
-  over,
-  (%~),
-  set,
-  (.~),
-  copy,
+  , (&)
+  , (%)
+  , (?~)
+  , view
+  , (^.)
+  , preview
+  , (^?)
+  , toListOf
+  , (^..)
+  , over
+  , (%~)
+  , set
+  , (.~)
+  , copy
   -- prelude
-  expectJust,
-  for,
-  fromJust,
-  head,
-  identity,
-  last,
-  maximum,
-  maybeRead,
-  minimum,
-  read,
-  showt,
-  showtp,
-  tail,
-  throwLeft,
-  toMaybe,
-  traverse_,
-  unexpectedError,
-  whenJust,
-  whenNothing,
-) where
+  , expectJust
+  , for
+  , fromJust
+  , head
+  , identity
+  , last
+  , maximum
+  , maybeRead
+  , minimum
+  , read
+  , showt
+  , showtp
+  , tail
+  , throwLeft
+  , toMaybe
+  , traverse_
+  , unexpectedError
+  , whenJust
+  , whenNothing
+  )
+where
 
 import Control.Applicative
 import Control.Exception (Exception)
@@ -65,18 +66,18 @@ import Data.Algebra.Boolean
 import Data.Either
 import qualified Data.Either.Optics as O
 import Data.Foldable (asum, foldMap, traverse_)
-import Data.List hiding (
-  all,
-  and,
-  any,
-  head,
-  last,
-  maximum,
-  minimum,
-  or,
-  tail,
-  (!!),
- )
+import Data.List hiding
+  ( all
+  , and
+  , any
+  , head
+  , last
+  , maximum
+  , minimum
+  , or
+  , tail
+  , (!!)
+  )
 import Data.Maybe hiding (fromJust)
 import qualified Data.Maybe.Optics as O
 import Data.Monoid
@@ -88,81 +89,81 @@ import qualified Data.Tuple.Optics as O
 import GHC.Generics (Generic)
 import GHC.Stack (HasCallStack, withFrozenCallStack)
 import Optics
-import qualified Optics as O (
-  A_Fold,
-  A_Getter,
-  A_Lens,
-  A_Prism,
-  A_ReversedLens,
-  A_ReversedPrism,
-  A_Review,
-  A_Setter,
-  A_Traversal,
-  AffineFold,
-  AffineTraversal,
-  AffineTraversal',
-  An_AffineFold,
-  An_AffineTraversal,
-  An_Iso,
-  Fold,
-  Getter,
-  Iso,
-  Iso',
-  IxAffineFold,
-  IxAffineTraversal,
-  IxAffineTraversal',
-  IxFold,
-  IxGetter,
-  IxLens,
-  IxLens',
-  IxSetter,
-  IxSetter',
-  IxTraversal,
-  IxTraversal',
-  Lens,
-  Lens',
-  NoIx,
-  Optic,
-  Optic',
-  Prism,
-  Prism',
-  ReversedLens,
-  ReversedLens',
-  ReversedPrism,
-  ReversedPrism',
-  Review,
-  Setter,
-  Setter',
-  Traversal,
-  Traversal',
-  WithIx,
- )
+import qualified Optics as O
+  ( A_Fold
+  , A_Getter
+  , A_Lens
+  , A_Prism
+  , A_ReversedLens
+  , A_ReversedPrism
+  , A_Review
+  , A_Setter
+  , A_Traversal
+  , AffineFold
+  , AffineTraversal
+  , AffineTraversal'
+  , An_AffineFold
+  , An_AffineTraversal
+  , An_Iso
+  , Fold
+  , Getter
+  , Iso
+  , Iso'
+  , IxAffineFold
+  , IxAffineTraversal
+  , IxAffineTraversal'
+  , IxFold
+  , IxGetter
+  , IxLens
+  , IxLens'
+  , IxSetter
+  , IxSetter'
+  , IxTraversal
+  , IxTraversal'
+  , Lens
+  , Lens'
+  , NoIx
+  , Optic
+  , Optic'
+  , Prism
+  , Prism'
+  , ReversedLens
+  , ReversedLens'
+  , ReversedPrism
+  , ReversedPrism'
+  , Review
+  , Setter
+  , Setter'
+  , Traversal
+  , Traversal'
+  , WithIx
+  )
 import Text.JSON.FromJSValue
 import Text.JSON.ToJSValue
-import Text.Pretty.Simple (
-  OutputOptions (..),
-  defaultOutputOptionsDarkBg,
-  pShowOpt,
- )
-import "base" Prelude hiding (
-  all,
-  and,
-  any,
-  error,
-  fail,
-  head,
-  id,
-  last,
-  maximum,
-  minimum,
-  not,
-  or,
-  read,
-  tail,
-  (!!),
-  (&&),
-  (||),
- )
+import Text.Pretty.Simple
+  ( OutputOptions (..)
+  , defaultOutputOptionsDarkBg
+  , pShowOpt
+  )
+import "base" Prelude hiding
+  ( all
+  , and
+  , any
+  , error
+  , fail
+  , head
+  , id
+  , last
+  , maximum
+  , minimum
+  , not
+  , or
+  , read
+  , tail
+  , (!!)
+  , (&&)
+  , (||)
+  )
 import qualified "base" Prelude as P hiding (fail)
 
 -- | Boolean algebra of functions.
@@ -270,9 +271,8 @@ expectJust msg = \case
   Nothing -> unexpectedError msg
   Just a -> a
 
-{- | Replacement for 'Data.Maybe.fromJust' that provides useful
- information on failure.
--}
+-- | Replacement for 'Data.Maybe.fromJust' that provides useful
+-- information on failure.
 fromJust :: HasCallStack => Maybe a -> a
 fromJust = expectJust "fromJust received Nothing"
 
