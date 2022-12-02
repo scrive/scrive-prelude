@@ -1,105 +1,179 @@
--- | Slightly customized replacement of Prelude.
-{-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# LANGUAGE PackageImports #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
+
+-- | Slightly customized replacement of Prelude.
 module Prelude (
-    module Control.Applicative
-  , module Control.Monad
-  , module Data.Algebra.Boolean
-  , module Data.Either
-  , module Data.Foldable
-  , module Data.List
-  , module Data.Maybe
-  , module Data.Monoid
-  , module Data.Monoid.Utils
-  , module O
-  , module P
-  , Generic
-  , Text
-  , MonadFail (..)
-  , (!!)
+  module Control.Applicative,
+  module Control.Monad,
+  module Data.Algebra.Boolean,
+  module Data.Either,
+  module Data.Foldable,
+  module Data.List,
+  module Data.Maybe,
+  module Data.Monoid,
+  module Data.Monoid.Utils,
+  module O,
+  module P,
+  Generic,
+  Text,
+  MonadFail (..),
+  (!!),
   -- optics
-  , (&), (%), (?~)
-  , view, (^.)
-  , preview, (^?)
-  , toListOf, (^..)
-  , over, (%~)
-  , set, (.~)
-  , copy
+  (&),
+  (%),
+  (?~),
+  view,
+  (^.),
+  preview,
+  (^?),
+  toListOf,
+  (^..),
+  over,
+  (%~),
+  set,
+  (.~),
+  copy,
   -- prelude
-  , identity
-  , for
-  , maybeRead
-  , toMaybe
-  , head
-  , last
-  , maximum
-  , minimum
-  , read
-  , tail
-  , expectJust
-  , fromJust
-  , whenJust
-  , whenNothing
-  , unexpectedError
-  , throwLeft
-  , showt
-  , showtp
-  ) where
+  expectJust,
+  for,
+  fromJust,
+  head,
+  identity,
+  last,
+  maximum,
+  maybeRead,
+  minimum,
+  read,
+  showt,
+  showtp,
+  tail,
+  throwLeft,
+  toMaybe,
+  traverse_,
+  unexpectedError,
+  whenJust,
+  whenNothing,
+) where
 
 import Control.Applicative
 import Control.Exception (Exception)
 import Control.Monad hiding (fail)
-import Control.Monad.Catch (MonadThrow(..))
+import Control.Monad.Catch (MonadThrow (..))
 import Control.Monad.Extra hiding (fail)
-import Control.Monad.Fail (MonadFail(..))
+import Control.Monad.Fail (MonadFail (..))
 import Data.Algebra.Boolean
 import Data.Either
-import Data.Foldable (asum, foldMap)
-import Data.List hiding
-  ( (!!), all, and, any, head, last, maximum, minimum, or, tail
-  )
+import qualified Data.Either.Optics as O
+import Data.Foldable (asum, foldMap, traverse_)
+import Data.List hiding (
+  all,
+  and,
+  any,
+  head,
+  last,
+  maximum,
+  minimum,
+  or,
+  tail,
+  (!!),
+ )
 import Data.Maybe hiding (fromJust)
+import qualified Data.Maybe.Optics as O
 import Data.Monoid
 import Data.Monoid.Utils
 import Data.Text (Text)
-import GHC.Generics (Generic)
-import GHC.Stack (HasCallStack, withFrozenCallStack)
-import Optics
-import Text.JSON.FromJSValue
-import Text.JSON.ToJSValue
-import Text.Pretty.Simple
-  ( OutputOptions(..), defaultOutputOptionsDarkBg, pShowOpt
-  )
-import "base" Prelude hiding
-  ( (!!), (&&), (||), all, and, any, error, fail, head, id, last, maximum
-  , minimum, not, or, read, tail
-  )
-import qualified Data.Either.Optics as O
-import qualified Data.Maybe.Optics as O
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Tuple.Optics as O
-import qualified Optics as O
-  ( A_Fold, A_Getter, A_Lens, A_Prism, A_ReversedLens, A_ReversedPrism, A_Review
-  , A_Setter, A_Traversal, AffineFold, AffineTraversal, AffineTraversal'
-  , An_AffineFold, An_AffineTraversal, An_Iso, Fold, Getter, Iso, Iso'
-  , IxAffineFold, IxAffineTraversal, IxAffineTraversal', IxFold, IxGetter
-  , IxLens, IxLens', IxSetter, IxSetter', IxTraversal, IxTraversal', Lens, Lens'
-  , NoIx, Optic, Optic', Prism, Prism', ReversedLens, ReversedLens'
-  , ReversedPrism, ReversedPrism', Review, Setter, Setter', Traversal
-  , Traversal', WithIx
-  )
+import GHC.Generics (Generic)
+import GHC.Stack (HasCallStack, withFrozenCallStack)
+import Optics
+import qualified Optics as O (
+  A_Fold,
+  A_Getter,
+  A_Lens,
+  A_Prism,
+  A_ReversedLens,
+  A_ReversedPrism,
+  A_Review,
+  A_Setter,
+  A_Traversal,
+  AffineFold,
+  AffineTraversal,
+  AffineTraversal',
+  An_AffineFold,
+  An_AffineTraversal,
+  An_Iso,
+  Fold,
+  Getter,
+  Iso,
+  Iso',
+  IxAffineFold,
+  IxAffineTraversal,
+  IxAffineTraversal',
+  IxFold,
+  IxGetter,
+  IxLens,
+  IxLens',
+  IxSetter,
+  IxSetter',
+  IxTraversal,
+  IxTraversal',
+  Lens,
+  Lens',
+  NoIx,
+  Optic,
+  Optic',
+  Prism,
+  Prism',
+  ReversedLens,
+  ReversedLens',
+  ReversedPrism,
+  ReversedPrism',
+  Review,
+  Setter,
+  Setter',
+  Traversal,
+  Traversal',
+  WithIx,
+ )
+import Text.JSON.FromJSValue
+import Text.JSON.ToJSValue
+import Text.Pretty.Simple (
+  OutputOptions (..),
+  defaultOutputOptionsDarkBg,
+  pShowOpt,
+ )
+import "base" Prelude hiding (
+  all,
+  and,
+  any,
+  error,
+  fail,
+  head,
+  id,
+  last,
+  maximum,
+  minimum,
+  not,
+  or,
+  read,
+  tail,
+  (!!),
+  (&&),
+  (||),
+ )
 import qualified "base" Prelude as P hiding (fail)
 
 -- | Boolean algebra of functions.
 instance Boolean b => Boolean (a -> b) where
-  true  = const true
+  true = const true
   false = const false
   not f = not . f
-  (&&)   = liftA2 (&&)
-  (||)   = liftA2 (||)
-  xor    = liftA2 xor
-  (-->)  = liftA2 (-->)
+  (&&) = liftA2 (&&)
+  (||) = liftA2 (||)
+  xor = liftA2 xor
+  (-->) = liftA2 (-->)
   (<-->) = liftA2 (<-->)
 
 instance FromJSValue Text where
@@ -112,6 +186,7 @@ instance ToJSValue Text where
 -- Additional optics utilities.
 
 {-# ANN copy ("HLint: ignore Eta reduce" :: String) #-}
+
 -- | Copy the field value from an object of the same type.
 copy :: (Is k A_Setter, Is k A_Getter) => Optic k is s s a a -> s -> s -> s
 copy x fromThis toThat = set x (view x fromThis) toThat
@@ -126,11 +201,11 @@ for = flip map
 maybeRead :: Read a => Text -> Maybe a
 maybeRead s = case reads (T.unpack s) of
   [(v, "")] -> Just v
-  _         -> Nothing
+  _ -> Nothing
 
 -- | Returns Just if the precondition is true.
 toMaybe :: Bool -> a -> Maybe a
-toMaybe True  x = Just x
+toMaybe True x = Just x
 toMaybe False _ = Nothing
 
 ----------------------------------------
@@ -143,14 +218,15 @@ identity = P.id
 (!!) :: HasCallStack => [a] -> Int -> a
 xs !! n
   | n < 0 = negativeIndexError "!!"
-  | otherwise = foldr
-    (\x r k -> case k of
-      0 -> x
-      _ -> r (k - 1)
-    )
-    (indexOutOfBoundsError "!!")
-    xs
-    n
+  | otherwise =
+      foldr
+        ( \x r k -> case k of
+            0 -> x
+            _ -> r (k - 1)
+        )
+        (indexOutOfBoundsError "!!")
+        xs
+        n
 
 -- | Replacement for 'P.head' that provides useful information on failure.
 head :: HasCallStack => [a] -> a
@@ -176,33 +252,34 @@ minimum = emptyList P.minimum $ emptyListError "minimum"
 read :: (HasCallStack, Read a, Show a) => Text -> a
 read s =
   let parsedS = reads $ T.unpack s
-  in  fromMaybe
-          (  unexpectedError
-          $  "reading failed (input was '"
-          <> s
-          <> "', reads returned '"
-          <> showt parsedS
-          <> "')"
-          )
+   in fromMaybe
+        ( unexpectedError $
+            "reading failed (input was '"
+              <> s
+              <> "', reads returned '"
+              <> showt parsedS
+              <> "')"
+        )
         $ do
-            [(v, "")] <- return parsedS
-            return v
+          [(v, "")] <- return parsedS
+          return v
 
 -- | General version of 'fromJust' with a custom error message
 expectJust :: HasCallStack => Text -> Maybe a -> a
 expectJust msg = \case
   Nothing -> unexpectedError msg
-  Just a  -> a
+  Just a -> a
 
--- | Replacement for 'Data.Maybe.fromJust' that provides useful
--- information on failure.
+{- | Replacement for 'Data.Maybe.fromJust' that provides useful
+ information on failure.
+-}
 fromJust :: HasCallStack => Maybe a -> a
 fromJust = expectJust "fromJust received Nothing"
 
 -- | whenNothing mA fa = maybe fa return mA
 whenNothing :: Applicative f => Maybe a -> f a -> f a
 whenNothing (Just x) _ = pure x
-whenNothing Nothing  m = m
+whenNothing Nothing m = m
 
 -- | Like 'error', but with a more conspicous name.
 unexpectedError :: HasCallStack => Text -> a
@@ -231,8 +308,11 @@ showt = T.pack . show
 
 -- | Pretty print anything with a `Show` instance.
 showtp :: Show a => a -> T.Text
-showtp = TL.toStrict . pShowOpt
-  (defaultOutputOptionsDarkBg { outputOptionsCompact   = True
-                              , outputOptionsPageWidth = 180
-                              }
-  )
+showtp =
+  TL.toStrict
+    . pShowOpt
+      ( defaultOutputOptionsDarkBg
+          { outputOptionsCompact = True
+          , outputOptionsPageWidth = 180
+          }
+      )
