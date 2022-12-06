@@ -64,7 +64,7 @@ import Control.Monad.Fail (MonadFail (..))
 import Data.Algebra.Boolean
 import Data.Either
 import qualified Data.Either.Optics as O
-import Data.Foldable (asum, foldMap, traverse_)
+import Data.Foldable (asum, foldMap)
 import Data.List hiding
   ( all
   , and

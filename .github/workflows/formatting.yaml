@@ -19,5 +19,3 @@ jobs:
         with:
           pattern: |
             src/**/*.hs
-            test/**/*.hs
-            app/**/*.hs
