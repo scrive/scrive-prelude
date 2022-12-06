@@ -19,15 +19,14 @@ jobs:
     strategy:
       matrix:
         ghc:
-          - 8.10.7
-          - 9.2.3
+          - 9.2.4
     steps:
       - uses: actions/checkout@v3
       - uses: haskell/actions/setup@v2
         id: setup-haskell
         with:
           ghc-version: ${{ matrix.ghc }}
-          cabal-version: 3.6.2.0
+          cabal-version: 3.8.1.0
       - name: Create freeze file
         run: cabal freeze
       - uses: actions/cache@v3
