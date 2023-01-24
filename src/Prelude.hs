@@ -8,6 +8,7 @@ module Prelude
   , module Data.Algebra.Boolean
   , module Data.Either
   , module Data.Foldable
+  , module Data.Functor
   , module Data.List
   , module Data.Maybe
   , module Data.Monoid
@@ -65,6 +66,7 @@ import Data.Algebra.Boolean
 import Data.Either
 import qualified Data.Either.Optics as O
 import Data.Foldable (asum, foldMap, traverse_)
+import Data.Functor
 import Data.List hiding
   ( all
   , and

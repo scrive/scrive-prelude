@@ -35,6 +35,7 @@ common common-stanza
     MultiParamTypeClasses
     MultiWayIf
     NamedFieldPuns
+    NoImplicitPrelude
     OverloadedLabels
     OverloadedStrings
     PatternGuards
