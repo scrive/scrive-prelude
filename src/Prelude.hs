@@ -11,7 +11,6 @@ module Prelude
   , module Data.List
   , module Data.Maybe
   , module Data.Monoid
-  , module Data.Monoid.Utils
   , module O
   , module P
   , Generic
@@ -80,7 +79,6 @@ import Data.List hiding
 import Data.Maybe hiding (fromJust)
 import qualified Data.Maybe.Optics as O
 import Data.Monoid
-import Data.Monoid.Utils
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
