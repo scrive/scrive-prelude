@@ -10,7 +10,8 @@ synopsis:      Prelude for scrive
 description:
   This is scrive's common collection of function import we use the most.
 
-license:
+license:       BSD-3-Clause
+license-file:  LICENSE
 build-type:    Simple
 
 common common-stanza
