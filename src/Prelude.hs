@@ -17,6 +17,8 @@ module Prelude
   , Text
   , MonadFail (..)
   , (!!)
+  -- hpqtypes
+  , (<+>)
   -- optics
   , (&)
   , (%)
@@ -79,6 +81,7 @@ import Data.List hiding
 import Data.Maybe hiding (fromJust)
 import qualified Data.Maybe.Optics as O
 import Data.Monoid
+import Data.Monoid.Utils
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
