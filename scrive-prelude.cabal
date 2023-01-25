@@ -64,7 +64,6 @@ library
     , exceptions
     , extra
     , fields-json
-    , hpqtypes
     , optics
     , pretty-simple
     , text
