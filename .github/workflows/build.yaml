@@ -14,7 +14,7 @@ on:
 jobs:
   cabal-build:
     runs-on:
-      - linux
+      - ubuntu-latest
     strategy:
       matrix:
         ghc:
