@@ -1,5 +1,7 @@
 # scrive-prelude
 
+[![Actions Status](https://github.com/scrive/scrive-prelude/workflows/Build/badge.svg)](https://github.com/scrive/scrive-prelude/actions)
+
 This library includes every datatype and function needed by Scrive projects.
 
 ## Using this library
