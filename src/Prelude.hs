@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE PackageImports #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -167,6 +168,7 @@ import "base" Prelude hiding
   )
 import qualified "base" Prelude as P hiding (fail)
 
+#if !MIN_VERSION_cond(0,5,0)
 -- | Boolean algebra of functions.
 instance Boolean b => Boolean (a -> b) where
   true = const true
@@ -177,6 +179,7 @@ instance Boolean b => Boolean (a -> b) where
   xor = liftA2 xor
   (-->) = liftA2 (-->)
   (<-->) = liftA2 (<-->)
+#endif
 
 instance FromJSValue Text where
   fromJSValue = fmap T.pack . fromJSValue
