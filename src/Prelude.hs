@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE PackageImports #-}
-{-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# OPTIONS_GHC -Wno-orphans #-}
 
 -- | Slightly customized replacement of Prelude.
 module Prelude
@@ -46,6 +46,7 @@ module Prelude
   , maybeRead
   , minimum
   , read
+  , readEither
   , showt
   , showtp
   , tail
@@ -67,7 +68,7 @@ import Data.Algebra.Boolean
 import Data.Either
 import qualified Data.Either.Optics as O
 import Data.Foldable (asum, foldMap, traverse_)
-import Data.Functor
+import Data.Functor hiding (unzip)
 import Data.List hiding
   ( all
   , and
@@ -89,6 +90,7 @@ import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Tuple.Optics as O
 import GHC.Generics (Generic)
+import qualified GHC.Read as Read
 import GHC.Stack (HasCallStack, withFrozenCallStack)
 import Optics
 import qualified Optics as O
@@ -142,6 +144,8 @@ import qualified Optics as O
   )
 import Text.JSON.FromJSValue
 import Text.JSON.ToJSValue
+import qualified Text.ParserCombinators.ReadP as Read
+import qualified Text.ParserCombinators.ReadPrec as Read
 import Text.Pretty.Simple
   ( OutputOptions (..)
   , defaultOutputOptionsDarkBg
@@ -204,9 +208,15 @@ for = flip map
 
 -- | Read a value and return 'Nothing' if an error occurs during parsing.
 maybeRead :: Read a => Text -> Maybe a
-maybeRead s = case reads (T.unpack s) of
-  [(v, "")] -> Just v
-  _ -> Nothing
+maybeRead s =
+  case [x | (x, "") <- Read.readPrec_to_S read' Read.minPrec $ T.unpack s] of
+    [x] -> Just x
+    _ -> Nothing
+  where
+    read' = do
+      x <- Read.readPrec
+      Read.lift Read.skipSpaces
+      pure x
 
 -- | Returns Just if the precondition is true.
 toMaybe :: Bool -> a -> Maybe a
@@ -255,19 +265,24 @@ minimum = emptyList P.minimum $ emptyListError "minimum"
 
 -- | Replacement for 'P.read' that provides useful information on failure.
 read :: (HasCallStack, Read a, Show a) => Text -> a
-read s =
-  let parsedS = reads $ T.unpack s
-  in  fromMaybe
-        ( unexpectedError $
-            "reading failed (input was '"
-              <> s
-              <> "', reads returned '"
-              <> showt parsedS
-              <> "')"
-        )
-        $ do
-          [(v, "")] <- return parsedS
-          return v
+read = either unexpectedError identity . readEither
+
+readEither :: (Read a, Show a) => Text -> Either Text a
+readEither s =
+  case [x | (x, "") <- Read.readPrec_to_S read' Read.minPrec $ T.unpack s] of
+    [x] -> Right x
+    xs ->
+      Left $
+        "reading failed (input was '"
+          <> s
+          <> "', reads returned '"
+          <> showt xs
+          <> "')"
+  where
+    read' = do
+      x <- Read.readPrec
+      Read.lift Read.skipSpaces
+      pure x
 
 -- | General version of 'fromJust' with a custom error message
 expectJust :: HasCallStack => Text -> Maybe a -> a
