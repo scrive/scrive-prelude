@@ -202,9 +202,9 @@ copy x fromThis toThat = set x (view x fromThis) toThat
 
 ----------------------------------------
 
--- | Just @flip map@.
-for :: [a] -> (a -> b) -> [b]
-for = flip map
+-- | Just @flip fmap@.
+for :: Functor f => f a -> (a -> b) -> f b
+for = flip fmap
 
 -- | Read a value and return 'Nothing' if an error occurs during parsing.
 maybeRead :: Read a => Text -> Maybe a
