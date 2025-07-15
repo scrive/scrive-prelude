@@ -49,6 +49,7 @@ module Prelude
   , readEither
   , showt
   , showtp
+  , sortWith
   , tail
   , throwLeft
   , toMaybe
@@ -89,6 +90,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Tuple.Optics as O
+import GHC.Exts (sortWith)
 import GHC.Generics (Generic)
 import qualified GHC.Read as Read
 import GHC.Stack (HasCallStack, withFrozenCallStack)
