@@ -14,6 +14,7 @@ module Prelude
   , module Data.Maybe
   , module Data.Monoid
   , module Data.Monoid.Utils
+  , module Data.Text.Display
   , module O
   , module P
   , Generic
@@ -86,6 +87,7 @@ import qualified Data.Maybe.Optics as O
 import Data.Monoid
 import Data.Monoid.Utils
 import Data.Text (Text)
+import Data.Text.Display
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Tuple.Optics as O

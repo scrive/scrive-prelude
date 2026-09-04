@@ -76,3 +76,4 @@ library
     , optics
     , pretty-simple
     , text
+    , text-display
